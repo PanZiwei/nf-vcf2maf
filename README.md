@@ -103,7 +103,7 @@ This workflow transfers files to and from Synapse, so it requires a secret with 
 
 ## Parameters
 
-Check out the [Quickstart](#quickstart) section for example parameter values. Some parameters have not been tested with non-default values; see [Known Limitations](#known-limitations).
+See the [Quickstart](#quickstart) section for example parameter values. Some parameters have not been tested with non-default values; see [Known limitations](#known-limitations).
 
 - **`input`**: (Required) Path to a CSV samplesheet listing the VCF files to process. See [Samplesheet](#samplesheet) below.
 - **`max_subpop_af`**: Allele-frequency threshold for the `common_variant` filter in vcf2maf. Variants with a gnomAD sub-population AF at or above this value are flagged as common variants and excluded from merged MAF files ([source](https://github.com/mskcc/vcf2maf/blob/5ed414428046e71833f454d4b64da6c30362a89b/docs/vep_maf_readme.txt#L116-L120)). Default: `0.0005`.
@@ -144,7 +144,7 @@ The input samplesheet must be in comma-separated values (CSV) format. Avoid spac
 - Filtered: restricted to releasable samples and variants where `FILTER` is `PASS` or `.` (excludes variants flagged `common_variant`)
 - Naming: `${study_id}-${variant_class}-${variant_caller}.merged.maf`
 
-## Known Limitations
+## Known limitations
 
 - This workflow has only been tested with the following parameter values:
   - `vep_tarball`: Ensembl VEP 107 (GRCh38)
