@@ -3,8 +3,8 @@ process MERGE_MAFS {
 
   tag "${meta.study_id}-${meta.variant_class}-${meta.variant_caller}"
 
-  label 'python'
-  label 'merge_compute'
+  label 'maf_utils'
+  label 'maf_utils_compute'
 
   errorStrategy 'retry'
   maxRetries 3

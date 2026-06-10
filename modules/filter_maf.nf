@@ -3,7 +3,7 @@ process FILTER_MAF {
 
   tag "${meta.synapse_id}"
 
-  label 'python'
+  label 'maf_utils'
 
   input:
   tuple val(meta), path(input_maf)
