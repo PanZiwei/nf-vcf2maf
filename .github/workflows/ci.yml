@@ -20,6 +20,9 @@ jobs:
         with:
           version: "latest-stable"
 
+      - name: Create stub input files
+        run: touch stub.tar.gz stub.fasta stub.fasta.fai
+
       - name: Set Nextflow secrets
         run: nextflow secrets set SYNAPSE_AUTH_TOKEN stub_token
 
@@ -28,4 +31,7 @@ jobs:
           nextflow run main.nf \
             -stub-run \
             --input tests/stub_samplesheet.csv \
+            --vep_tarball stub.tar.gz \
+            --reference_fasta stub.fasta \
+            --reference_fasta_fai stub.fasta.fai \
             -profile docker
