@@ -26,6 +26,11 @@ process SYNAPSE_GET {
   for f in *\\ *; do mv "\${f}" "\${f// /_}"; done
   """
 
+  stub:
+  """
+  touch stub.vcf
+  """
+
 }
 
 
@@ -46,6 +51,11 @@ process EXTRACT_TAR_GZ {
   tar -zxf ${vep_tarball} -C vep_data/
   """
 
+  stub:
+  """
+  mkdir -p vep_data
+  """
+
 }
 
 
@@ -56,10 +66,10 @@ process VCF2MAF {
 
   container "sagebionetworks/vcf2maf:107.2"
 
-  cpus   6
-  memory { 64.GB * task.attempt }
+  cpus   { Math.min(6, params.max_cpus as int) }
+  memory { [64.GB * task.attempt, params.max_memory as nextflow.util.MemoryUnit].min() }
 
-  errorStrategy = 'retry'
+  errorStrategy 'retry'
   maxRetries 3
 
   afterScript "rm -f intermediate*"
@@ -113,6 +123,12 @@ process VCF2MAF {
   grep -v '^#' intermediate.maf.raw > '${basename}.maf'
   """
 
+  stub:
+  basename = input_vcf.name.replaceAll(/.gz$/, "").replaceAll(/.vcf$/, "")
+  """
+  touch '${basename}.maf'
+  """
+
 }
 
 
@@ -134,6 +150,11 @@ process FILTER_MAF {
   filter_maf.py ${input_maf} '${input_maf.baseName}.passed.maf'
   """
 
+  stub:
+  """
+  touch '${input_maf.baseName}.passed.maf'
+  """
+
 }
 
 
@@ -144,9 +165,9 @@ process MERGE_MAFS {
 
   container "python:3.10.4"
 
-  memory { 16.GB * task.attempt }
+  memory { [16.GB * task.attempt, params.max_memory as nextflow.util.MemoryUnit].min() }
 
-  errorStrategy = 'retry'
+  errorStrategy 'retry'
   maxRetries 3
 
   input:
@@ -159,6 +180,12 @@ process MERGE_MAFS {
   prefix = "${meta.study_id}-${meta.variant_class}-${meta.variant_caller}"
   """
   merge_mafs.py -i '${input_mafs.join(',')}' -o '${prefix}.merged.maf'
+  """
+
+  stub:
+  prefix = "${meta.study_id}-${meta.variant_class}-${meta.variant_caller}"
+  """
+  touch '${prefix}.merged.maf'
   """
 }
 
@@ -178,6 +205,11 @@ process SYNAPSE_STORE {
   script:
   """
   synapse store --parentId ${parent_id} ${input}
+  """
+
+  stub:
+  """
+  echo "stub: skipping synapse store"
   """
 
 }
