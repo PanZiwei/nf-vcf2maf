@@ -3,7 +3,7 @@ process SYNAPSE_GET {
 
   tag "${meta.synapse_id}"
 
-  label 'synapse'
+  label 'synapse_python_client'
 
   secret "SYNAPSE_AUTH_TOKEN"
 

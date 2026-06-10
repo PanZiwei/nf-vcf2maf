@@ -3,7 +3,7 @@ process SYNAPSE_STORE {
 
   tag "${parent_id}/${input.name}"
 
-  label 'synapse'
+  label 'synapse_python_client'
 
   secret "SYNAPSE_AUTH_TOKEN"
 
