@@ -33,5 +33,4 @@ jobs:
             --input $PWD/tests/stub_samplesheet.csv \
             --vep_tarball $PWD/stub.tar.gz \
             --reference_fasta $PWD/stub.fasta \
-            --reference_fasta_fai $PWD/stub.fasta.fai \
-            -profile docker
+            --reference_fasta_fai $PWD/stub.fasta.fai

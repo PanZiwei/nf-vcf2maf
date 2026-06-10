@@ -51,6 +51,11 @@ process EXTRACT_TAR_GZ {
   tar -zxf ${vep_tarball} -C vep_data/
   """
 
+  stub:
+  """
+  mkdir -p vep_data
+  """
+
 }
 
 
@@ -118,6 +123,12 @@ process VCF2MAF {
   grep -v '^#' intermediate.maf.raw > '${basename}.maf'
   """
 
+  stub:
+  basename = input_vcf.name.replaceAll(/.gz$/, "").replaceAll(/.vcf$/, "")
+  """
+  touch '${basename}.maf'
+  """
+
 }
 
 
@@ -137,6 +148,11 @@ process FILTER_MAF {
   script:
   """
   filter_maf.py ${input_maf} '${input_maf.baseName}.passed.maf'
+  """
+
+  stub:
+  """
+  touch '${input_maf.baseName}.passed.maf'
   """
 
 }
@@ -164,6 +180,12 @@ process MERGE_MAFS {
   prefix = "${meta.study_id}-${meta.variant_class}-${meta.variant_caller}"
   """
   merge_mafs.py -i '${input_mafs.join(',')}' -o '${prefix}.merged.maf'
+  """
+
+  stub:
+  prefix = "${meta.study_id}-${meta.variant_class}-${meta.variant_caller}"
+  """
+  touch '${prefix}.merged.maf'
   """
 }
 
