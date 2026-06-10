@@ -3,7 +3,7 @@ process FILTER_MAF {
 
   tag "${meta.synapse_id}"
 
-  container "python:3.10.4"
+  label 'python'
 
   input:
   tuple val(meta), path(input_maf)

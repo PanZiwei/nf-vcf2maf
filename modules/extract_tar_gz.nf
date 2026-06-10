@@ -1,7 +1,7 @@
 // Process for decompressing and extracting the VEP cache tarball
 process EXTRACT_TAR_GZ {
 
-  container "sagebionetworks/vcf2maf:107.2"
+  label 'vcf2maf'
 
   input:
   path vep_tarball

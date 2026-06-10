@@ -3,7 +3,7 @@ process SYNAPSE_GET {
 
   tag "${meta.synapse_id}"
 
-  container "sagebionetworks/synapsepythonclient:v2.6.0"
+  label 'synapse'
 
   secret "SYNAPSE_AUTH_TOKEN"
 

@@ -3,9 +3,8 @@ process MERGE_MAFS {
 
   tag "${meta.study_id}-${meta.variant_class}-${meta.variant_caller}"
 
-  container "python:3.10.4"
-
-  memory { [16.GB * task.attempt, params.max_memory as nextflow.util.MemoryUnit].min() }
+  label 'python'
+  label 'merge_compute'
 
   errorStrategy 'retry'
   maxRetries 3

@@ -3,10 +3,8 @@ process VCF2MAF {
 
   tag "${meta.synapse_id}"
 
-  container "sagebionetworks/vcf2maf:107.2"
-
-  cpus   { Math.min(6, params.max_cpus as int) }
-  memory { [64.GB * task.attempt, params.max_memory as nextflow.util.MemoryUnit].min() }
+  label 'vcf2maf'
+  label 'vcf2maf_compute'
 
   errorStrategy 'retry'
   maxRetries 3
@@ -23,7 +21,8 @@ process VCF2MAF {
 
   // TODO: Handle VCF genotype columns per variant caller
   script:
-  vep_path  = "/root/miniconda3/envs/vep/bin"
+  // VEP binary path — specific to sagebionetworks/vcf2maf image; update params.vep_path when switching images
+  vep_path  = params.vep_path
   vep_forks = task.cpus - 2
   basename  = input_vcf.name.replaceAll(/.gz$/, "").replaceAll(/.vcf$/, "")
 

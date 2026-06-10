@@ -3,7 +3,7 @@ process SYNAPSE_STORE {
 
   tag "${parent_id}/${input.name}"
 
-  container "sagebionetworks/synapsepythonclient:v2.6.0"
+  label 'synapse'
 
   secret "SYNAPSE_AUTH_TOKEN"
 
