@@ -26,6 +26,11 @@ process SYNAPSE_GET {
   for f in *\\ *; do mv "\${f}" "\${f// /_}"; done
   """
 
+  stub:
+  """
+  touch stub.vcf
+  """
+
 }
 
 
@@ -178,6 +183,11 @@ process SYNAPSE_STORE {
   script:
   """
   synapse store --parentId ${parent_id} ${input}
+  """
+
+  stub:
+  """
+  echo "stub: skipping synapse store"
   """
 
 }
