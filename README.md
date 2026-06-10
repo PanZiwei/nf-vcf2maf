@@ -191,6 +191,9 @@ rsync -avhP $HOME/ref/fasta/ /dev/shm/fasta/
 
 ### Preparing the Ensembl VEP cache
 
+> [!NOTE]
+> The timings below were measured on the original `main` branch and have not been re-run on `modularize`. Because `modularize` is a pure structural refactor with no changes to how the VEP cache is downloaded or extracted, the relative ordering of methods is expected to hold, but the absolute numbers should be treated as approximate until re-tested.
+
 #### Outside of Nextflow
 
 To determine the most efficient way to prepare the VEP cache for vcf2maf, several permutations of downloading the tarball or extracted folder from Ensembl or S3 were compared:
