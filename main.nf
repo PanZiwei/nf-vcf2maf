@@ -66,8 +66,8 @@ process VCF2MAF {
 
   container "sagebionetworks/vcf2maf:107.2"
 
-  cpus   6
-  memory { 64.GB * task.attempt }
+  cpus   { Math.min(6, params.max_cpus as int) }
+  memory { [64.GB * task.attempt, params.max_memory as nextflow.util.MemoryUnit].min() }
 
   errorStrategy 'retry'
   maxRetries 3
@@ -165,7 +165,7 @@ process MERGE_MAFS {
 
   container "python:3.10.4"
 
-  memory { 16.GB * task.attempt }
+  memory { [16.GB * task.attempt, params.max_memory as nextflow.util.MemoryUnit].min() }
 
   errorStrategy 'retry'
   maxRetries 3
